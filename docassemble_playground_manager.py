@@ -162,8 +162,6 @@ def delete_playground_file(payload):
     result = requests.delete(payload['URL'], params=payload)
     result.raise_for_status()
 
-
-
 def clean_out_local_package():
     """
     Synopsis
@@ -244,8 +242,12 @@ def get_path_to_folders():
     Description
     ------------
     A docassemble package has the structure 
-    'docassemble-packageName/docassemble/packageName/data/{questions|templates|static|sources|modules}
-    This function constructs the path to the 'data' part
+    'docassemble-packageName/docassemble/packageName/data/{questions|templates|static|sources}
+    and
+    'docassemble-packageName/docassemble/packageName/*.py for modules.
+
+    See comments on Issue #3 for more details
+
 
     Parameters
     ----------
@@ -302,7 +304,7 @@ def list_files_to_push_or_pull(the_folder, list_method):
     ----------
     `the_folder` : str containing an element from `project_folders`
 
-    `list_method` : method to list files in the local directory or the playground.  Method
+    `list_method` : python method to list files in the local directory or the playground.  Method
     should take no parameters.
 
     Description
@@ -374,7 +376,6 @@ def do_push():
                 logging.error('Could not push folder: {}  Error: {}'.format(folder, str(e)))
         else:
             logging.warning('No files to push for folder: {}'.format(folder))
-    
 
 def do_pull():
     """
@@ -403,16 +404,14 @@ def do_pull():
 
     # Create a list of all the files in the playground
     
-    logging.error("Don't know how to pull files from the playground yet")
-    return
-    """
-    This will all come later
+    # logging.error("Don't know how to pull files from the playground yet")
+    # return
+    # This will all come later
     MJFpayload = {}
     MJFpayload['files'] = list_files_to_push_or_pull(list_all_playground_files)
 
     if args.delete:
         clean_out_local_package()
-    """
 
 def main():
     """Main Program

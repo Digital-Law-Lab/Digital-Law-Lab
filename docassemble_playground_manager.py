@@ -6,6 +6,7 @@ import requests, json
 import os
 from os import listdir
 from os.path import isfile, join
+import glob
 import argparse
 import logging
 from MJFsecrets import MJFSecrets
@@ -246,7 +247,7 @@ def get_path_to_folders():
     and
     'docassemble-packageName/docassemble/packageName/*.py for modules.
 
-    See comments on Issue #3 for more details
+    See this for more details: https://github.com/Digital-Law-Lab/Digital-Law-Lab/issues/3
 
 
     Parameters
@@ -255,11 +256,26 @@ def get_path_to_folders():
 
     Return
     ------
-    String containing path to folders
+    Dictionary containing path to each folder ie:
+    {
+        questions : path_to_questions
+        templates : path_to_templates
+        ...
+        modules   : path_to_modules
+    }
     """
-    path_to_folders = os.path.join(args.package, 'docassemble/{}/data'.format(get_package_name()))
-    logging.debug('path_to_folders: {}'.format(path_to_folders))
-    return path_to_folders
+    result = {}
+    # Create a temp array to iterate over non-module folders
+    temp = project_folders.copy()
+    temp.remove('modules')
+    for a_path in temp:
+        result[a_path] = os.path.join(args.package, 'docassemble/{}/data/{}'.format(get_package_name(), a_path))
+        logging.debug('path_to_folders: {}'.format(path_to_folders))
+    # Now add path to the modules
+    result['modules'] = os.path.join(args.package, 'docassemble/{}'.format(get_package_name()))
+
+    logging.debug('path_to_folders: {}'.format(result))
+    return result
 
 def list_local_files(the_folder):
     """
@@ -269,7 +285,8 @@ def list_local_files(the_folder):
 
     Description
     -----------
-    Lists all files in /path/to/docassemble-packageName/docassemble/packageName/data/<project_dirs>.
+    Lists all files in /path/to/docassemble-packageName/docassemble/packageName/data/<project_dirs>, 
+    and lists files in /path/to/docassemble-packageName/docassemble/packageName/*.py (for modules)
     
     Parameters
     ----------
@@ -281,13 +298,20 @@ def list_local_files(the_folder):
     """
     # Project folders are in data_dir
     result = []
-    data_dir = get_path_to_folders()
-    current_dir = os.path.join(data_dir, the_folder)
+    data_dirs = get_path_to_folders()
+    current_dir = data_dirs[the_folder]
     try:
-        for file in os.listdir(current_dir):
-            file_path = os.path.join(current_dir, file)
-            if isfile(file_path):
-                result.append(file_path)
+        if the_folder == 'modules':
+            # Include *.py but exclude __init__.py
+            file_paths = glob.glob('{}/{}'.format(current_dir, '[!_]*.py'))
+        else:
+            # Include all files
+            file_paths = glob.glob('{}/*')
+
+        for a_path in file_paths:
+            # Exclude subdirs
+            if isfile(a_path):
+                result.append(a_path)
     except:
         # Nothing is appended if the directory doesn't exist
         pass

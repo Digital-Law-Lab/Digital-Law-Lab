@@ -32,6 +32,50 @@
                 "P18",
                 "--push"
             ]
+        },
+        {
+            "name" : "P18 Pull",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--secrets_file",
+                "D:/OneDrive - Mark Ferraretto/kdb/secrets.json",
+                "--secret",
+                "mferrare_github",
+                "--loglevel",
+                "DEBUG",
+                "--package",
+                "D:/OneDrive - Mark Ferraretto/Software/Digital_Law_Lab/docassemble-LLAW33012020S1P18",
+                "--project",
+                "P18",
+                "--pull"
+            ]
+        },
+        {
+            "name" : "P18 Push One File",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "justMyCode": true,
+            "args": [
+                "--secrets_file",
+                "D:/OneDrive - Mark Ferraretto/kdb/secrets.json",
+                "--secret",
+                "mferrare_github",
+                "--loglevel",
+                "DEBUG",
+                "--package",
+                "D:/OneDrive - Mark Ferraretto/Software/Digital_Law_Lab/docassemble-LLAW33012020S1P18",
+                "--project",
+                "P18",
+                "--push",
+                "--files",
+                "modules/test.py"
+            ]
         }
     ]
 }

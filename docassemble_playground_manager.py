@@ -19,7 +19,18 @@ project_name = None             # Where to store project if defined
 
 # List of folders to iterate through.  This list comes from the
 # API documentation: https://docassemble.org/docs/api.html#playground_get
-project_folders = [ 'questions', 'sources', 'static', 'templates', 'modules']
+QUESTIONS_FOLDER = 'questions'
+SOURCES_FOLDER   = 'sources'
+STATIC_FOLDER    = 'static'
+TEMPLATES_FOLDER = 'templates'
+MODULES_FOLDER   = 'modules'
+project_folders = [
+    QUESTIONS_FOLDER,
+    SOURCES_FOLDER,
+    STATIC_FOLDER,
+    TEMPLATES_FOLDER,
+    MODULES_FOLDER
+]
 
 
 def push_to_playground(MJFpayload):
@@ -266,12 +277,12 @@ def get_path_to_folders():
     result = {}
     # Create a temp array to iterate over non-module folders
     temp = project_folders.copy()
-    temp.remove('modules')
+    temp.remove(MODULES_FOLDER)
     for a_path in temp:
         result[a_path] = os.path.join(args.package, 'docassemble/{}/data/{}'.format(get_package_name(), a_path))
         logging.debug('a_path: {}'.format(a_path))
     # Now add path to the modules
-    result['modules'] = os.path.join(args.package, 'docassemble/{}'.format(get_package_name()))
+    result[MODULES_FOLDER] = os.path.join(args.package, 'docassemble/{}'.format(get_package_name()))
 
     logging.debug('path_to_folders: {}'.format(result))
     return result
@@ -300,7 +311,7 @@ def list_local_files(the_folder):
     data_dirs = get_path_to_folders()
     current_dir = data_dirs[the_folder]
     try:
-        if the_folder == 'modules':
+        if the_folder == MODULES_FOLDER:
             # Include *.py but exclude __init__.py
             file_paths = glob.glob('{}/{}'.format(current_dir, '[!_]*.py'))
         else:
@@ -354,7 +365,15 @@ def list_files_to_push_or_pull(the_folder, list_method):
             for b_file in list_method(the_folder):
                 b_file = os.path.normpath(b_file)
                 b_file_dir, b_file_name = b_file.split(os.sep)[-2:]
-                if b_file_dir == a_file_dir and b_file_name == a_file_name:
+                # Account for modules being in a different path
+                if the_folder == MODULES_FOLDER:
+                    # Directory for storing modules is the project name
+                    compare_dir = get_package_name()
+                else:
+                    # All other files are stored in project_name/data/the_folder
+                    compare_dir = a_file_dir
+
+                if b_file_dir == compare_dir and b_file_name == a_file_name:
                     just_the_files.append(b_file)
         return just_the_files
     else:
@@ -431,10 +450,13 @@ def do_pull():
     # return
     # This will all come later
     MJFpayload = {}
-    MJFpayload['files'] = list_files_to_push_or_pull(list_all_playground_files)
+    MJFpayload['files'] = list_all_playground_files()
 
     if args.delete:
         clean_out_local_package()
+
+    # Not pursuing this for now
+    logging.info("Pulling files from the Playground is not yet implemented")
 
 def main():
     """Main Program

@@ -6,6 +6,7 @@ import requests, json
 import os
 from os import listdir
 from os.path import isfile, join
+import glob
 import argparse
 import logging
 from MJFsecrets import MJFSecrets
@@ -18,7 +19,18 @@ project_name = None             # Where to store project if defined
 
 # List of folders to iterate through.  This list comes from the
 # API documentation: https://docassemble.org/docs/api.html#playground_get
-project_folders = [ 'questions', 'sources', 'static', 'templates', 'modules']
+QUESTIONS_FOLDER = 'questions'
+SOURCES_FOLDER   = 'sources'
+STATIC_FOLDER    = 'static'
+TEMPLATES_FOLDER = 'templates'
+MODULES_FOLDER   = 'modules'
+project_folders = [
+    QUESTIONS_FOLDER,
+    SOURCES_FOLDER,
+    STATIC_FOLDER,
+    TEMPLATES_FOLDER,
+    MODULES_FOLDER
+]
 
 
 def push_to_playground(MJFpayload):
@@ -162,8 +174,6 @@ def delete_playground_file(payload):
     result = requests.delete(payload['URL'], params=payload)
     result.raise_for_status()
 
-
-
 def clean_out_local_package():
     """
     Synopsis
@@ -244,8 +254,11 @@ def get_path_to_folders():
     Description
     ------------
     A docassemble package has the structure 
-    'docassemble-packageName/docassemble/packageName/data/{questions|templates|static|sources|modules}
-    This function constructs the path to the 'data' part
+    'docassemble-packageName/docassemble/packageName/data/{questions|templates|static|sources} and
+    'docassemble-packageName/docassemble/packageName/*.py for modules.
+
+    See this for more details: https://github.com/Digital-Law-Lab/Digital-Law-Lab/issues/3
+
 
     Parameters
     ----------
@@ -253,11 +266,26 @@ def get_path_to_folders():
 
     Return
     ------
-    String containing path to folders
+    Dictionary containing path to each folder ie:
+    {
+        questions : path_to_questions
+        templates : path_to_templates
+        ...
+        modules   : path_to_modules
+    }
     """
-    path_to_folders = os.path.join(args.package, 'docassemble/{}/data'.format(get_package_name()))
-    logging.debug('path_to_folders: {}'.format(path_to_folders))
-    return path_to_folders
+    result = {}
+    # Create a temp array to iterate over non-module folders
+    temp = project_folders.copy()
+    temp.remove(MODULES_FOLDER)
+    for a_path in temp:
+        result[a_path] = os.path.join(args.package, 'docassemble/{}/data/{}'.format(get_package_name(), a_path))
+        logging.debug('a_path: {}'.format(a_path))
+    # Now add path to the modules
+    result[MODULES_FOLDER] = os.path.join(args.package, 'docassemble/{}'.format(get_package_name()))
+
+    logging.debug('path_to_folders: {}'.format(result))
+    return result
 
 def list_local_files(the_folder):
     """
@@ -267,7 +295,8 @@ def list_local_files(the_folder):
 
     Description
     -----------
-    Lists all files in /path/to/docassemble-packageName/docassemble/packageName/data/<project_dirs>.
+    Lists all files in /path/to/docassemble-packageName/docassemble/packageName/data/<project_dirs>, 
+    and lists files in /path/to/docassemble-packageName/docassemble/packageName/*.py (for modules)
     
     Parameters
     ----------
@@ -279,13 +308,20 @@ def list_local_files(the_folder):
     """
     # Project folders are in data_dir
     result = []
-    data_dir = get_path_to_folders()
-    current_dir = os.path.join(data_dir, the_folder)
+    data_dirs = get_path_to_folders()
+    current_dir = data_dirs[the_folder]
     try:
-        for file in os.listdir(current_dir):
-            file_path = os.path.join(current_dir, file)
-            if isfile(file_path):
-                result.append(file_path)
+        if the_folder == MODULES_FOLDER:
+            # Include *.py but exclude __init__.py
+            file_paths = glob.glob('{}/{}'.format(current_dir, '[!_]*.py'))
+        else:
+            # Include all files
+            file_paths = glob.glob('{}/*'.format(current_dir))
+
+        for a_path in file_paths:
+            # Exclude subdirs
+            if isfile(a_path):
+                result.append(a_path)
     except:
         # Nothing is appended if the directory doesn't exist
         pass
@@ -302,7 +338,7 @@ def list_files_to_push_or_pull(the_folder, list_method):
     ----------
     `the_folder` : str containing an element from `project_folders`
 
-    `list_method` : method to list files in the local directory or the playground.  Method
+    `list_method` : python method to list files in the local directory or the playground.  Method
     should take no parameters.
 
     Description
@@ -329,7 +365,15 @@ def list_files_to_push_or_pull(the_folder, list_method):
             for b_file in list_method(the_folder):
                 b_file = os.path.normpath(b_file)
                 b_file_dir, b_file_name = b_file.split(os.sep)[-2:]
-                if b_file_dir == a_file_dir and b_file_name == a_file_name:
+                # Account for modules being in a different path
+                if the_folder == MODULES_FOLDER:
+                    # Directory for storing modules is the project name
+                    compare_dir = get_package_name()
+                else:
+                    # All other files are stored in project_name/data/the_folder
+                    compare_dir = a_file_dir
+
+                if b_file_dir == compare_dir and b_file_name == a_file_name:
                     just_the_files.append(b_file)
         return just_the_files
     else:
@@ -374,7 +418,6 @@ def do_push():
                 logging.error('Could not push folder: {}  Error: {}'.format(folder, str(e)))
         else:
             logging.warning('No files to push for folder: {}'.format(folder))
-    
 
 def do_pull():
     """
@@ -403,16 +446,17 @@ def do_pull():
 
     # Create a list of all the files in the playground
     
-    logging.error("Don't know how to pull files from the playground yet")
-    return
-    """
-    This will all come later
+    # logging.error("Don't know how to pull files from the playground yet")
+    # return
+    # This will all come later
     MJFpayload = {}
-    MJFpayload['files'] = list_files_to_push_or_pull(list_all_playground_files)
+    MJFpayload['files'] = list_all_playground_files()
 
     if args.delete:
         clean_out_local_package()
-    """
+
+    # Not pursuing this for now
+    logging.info("Pulling files from the Playground is not yet implemented")
 
 def main():
     """Main Program

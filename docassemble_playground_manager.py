@@ -243,8 +243,7 @@ def get_path_to_folders():
     Description
     ------------
     A docassemble package has the structure 
-    'docassemble-packageName/docassemble/packageName/data/{questions|templates|static|sources}
-    and
+    'docassemble-packageName/docassemble/packageName/data/{questions|templates|static|sources} and
     'docassemble-packageName/docassemble/packageName/*.py for modules.
 
     See this for more details: https://github.com/Digital-Law-Lab/Digital-Law-Lab/issues/3
@@ -270,7 +269,7 @@ def get_path_to_folders():
     temp.remove('modules')
     for a_path in temp:
         result[a_path] = os.path.join(args.package, 'docassemble/{}/data/{}'.format(get_package_name(), a_path))
-        logging.debug('path_to_folders: {}'.format(path_to_folders))
+        logging.debug('a_path: {}'.format(a_path))
     # Now add path to the modules
     result['modules'] = os.path.join(args.package, 'docassemble/{}'.format(get_package_name()))
 
@@ -306,7 +305,7 @@ def list_local_files(the_folder):
             file_paths = glob.glob('{}/{}'.format(current_dir, '[!_]*.py'))
         else:
             # Include all files
-            file_paths = glob.glob('{}/*')
+            file_paths = glob.glob('{}/*'.format(current_dir))
 
         for a_path in file_paths:
             # Exclude subdirs

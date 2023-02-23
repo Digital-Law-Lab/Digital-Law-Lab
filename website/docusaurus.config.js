@@ -20,7 +20,7 @@ const config = {
   organizationName: 'Digital-Law-Lab', // Usually your GitHub org/user name.
   projectName: 'Digital-Law-Lab', // Usually your repo name.
   deploymentBranch: 'gh-pages',
-  trailingSlash: false,
+  trailingSlash: true,
 
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',

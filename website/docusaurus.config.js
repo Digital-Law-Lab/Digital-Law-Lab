@@ -47,7 +47,7 @@ const config = {
           // Remove this to remove the "edit this page" links.
           // TODO: fix edit link
           editUrl: ({ docPath }) => {
-            return `https://github.com/Digital-Law-Lab/Digital-Law-Lab/edit/docusaurus-source/website/${docPath}`;
+            return `https://github.com/Digital-Law-Lab/Digital-Law-Lab/edit/docusaurus-source/website/docs/${docPath}`;
           },
         },
         blog: false,

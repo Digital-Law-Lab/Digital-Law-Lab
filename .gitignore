@@ -1,3 +1,4 @@
-__pycache__/MJFsecrets.cpython-37.pyc
+__pycache__
 .vscode
 .github
+node_modules

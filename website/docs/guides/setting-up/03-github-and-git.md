@@ -1,7 +1,3 @@
----
-sidebar_position: 3
----
-
 # Git and GitHub
 
 GitHub is a _remote_ repository we use to store our project files and utility scripts. Git is a local version control system which allows you to communicate with a remote repository stored on GitHub — by downloading (pulling), or uploading (pushing) changes. A list of important terms is provided below.

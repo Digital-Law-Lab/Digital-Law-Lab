@@ -1,7 +1,3 @@
----
-sidebar_position: 9
----
-
 # Code Editor
 
 We don't use Docassemble's Playground to edit code. This is because the Playground is too small and also doesn't work so well with Github. Instead, we use a code editor like Visual Studio Code and some custom python scripts to do our editing work and push our code to Docassemble for testing.

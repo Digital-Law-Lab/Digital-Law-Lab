@@ -1,6 +1,7 @@
 ---
 sidebar_position: 1
 slug: /
+title: Introduction
 ---
 
 This is the Digital Law Lab documentation library.

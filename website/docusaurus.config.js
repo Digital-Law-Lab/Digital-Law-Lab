@@ -58,6 +58,16 @@ const config = {
     ],
   ],
 
+  plugins: [
+    [
+      'docusaurus-plugin-image-shadow',
+      {
+        shadow: "true",
+        borderColor: 'red',
+      },
+    ],
+  ],
+
   themes: [
     [
       // @ts-ignore

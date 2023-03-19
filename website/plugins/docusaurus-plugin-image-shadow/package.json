@@ -1,0 +1,11 @@
+{
+  "name": "docusaurus-plugin-image-shadow",
+  "version": "0.0.1",
+  "description": "Adds a border and a shadow to displayed images",
+  "main": "docusaurus-plugin-image-shadow.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Mark Ferraretto",
+  "license": "UNLICENSED"
+}

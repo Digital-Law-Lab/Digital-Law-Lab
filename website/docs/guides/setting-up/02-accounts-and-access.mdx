@@ -1,20 +1,22 @@
 ---
 title: Account creation
 ---
-import {dll_admin_github} from '@site/src/constants.js'
+import { DisplayAdminData, DisplayServiceData } from '@site/src/constants.js';
 
-* Create an account on [GitHub](https://github.com).  If you already have one you can use that if you limke.
-* Ask {dll_admin_github} to add you to the Digital Law Lab developers team
+### Accounts
+Firstly, we're Google-centric 👎 but that's how it is.  We get more free stuff through Google (such as Drive and API to authenticate) than with other providers (eg: Microsoft).  So, you should use a gmail email address when asked to do so (eg: for GitHub and Docassemble etc)
 
-The end
+### GitHub
+Create an account on [GitHub](https://github.com).  If you already have one, you can use that if you like (notwithstanding my comment on Google accounts above)
+### Docassemble
+* Click on the 'Sign in with Google' button.  This will create a new Docassemble account for you with you gmail address.
+  * Do this on both the [development](https://dev.dll.org.au/da/) and [production](https://app.dll.org.au/da/) servers.
+* Ask <DisplayAdminData data='github' /> to add you to the Digital Law Lab developers team.
 
-<ul>
-  <li>Create an account on <a href="https://github.com">GitHub</a>.  If you already have one, you can use that if you like</li>
-  <li> Ask {dll_admin_github} to add you to the Digital Law Lab developers team.</li>
-  <li> Ask {dll_admin_github} to send you an invite to the Docassemble server.</li>
-  <ul>
-    <li>You need to specify an email address to use for logging in</li>
-    <li>You will be sent a link to create a new account</li>
-    <li>You should be set up as a developer (Ask {dll_admin_github} to check)</li>
-  </ul>
-</ul>
+You should be good to go!
+
+### Google Drive
+* Send your gmail address to <DisplayAdminData data='github'/> so you can get access to the [Digital Law Lab Google Drive](<DisplayServiceData data='google_drive' />
+
+### Slack
+* Ask <DisplayAdminData data='github' /> to be invited to the [Digital Law Lab Slack](https://digital-law-lab.slack.com)

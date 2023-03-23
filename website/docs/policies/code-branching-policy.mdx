@@ -1,0 +1,35 @@
+---
+title: Code Branching Policy
+---
+import { DisplayAdminData, DisplayServiceData } from '@site/src/constants.js';
+
+### Code Branching Diagram
+```
+master
+ |
+ - next
+    |
+    --- next_aaaa
+    |    |
+    |    --- issuenn
+    |
+    --- next_bbbb
+    |    |
+    |    --- issuemm
+    |    --- issuexx
+    |
+    --- next_cccc
+    ...
+```
+
+### Policy
+
+1. `master`/`main` only ever contains the version that is currently in production
+  > Only <DisplayAdminData data='github' /> can promote code into `master` and in accordance with [Promoting Code into Production](./promoting-code-into-production)
+1. `next` branch is created from `master`.  This contains the next version to be promoted into production
+  > Only <DisplayAdminData data='github' /> can promote code into `next` and in accordance with [Promoting Code into Production](./promoting-code-into-production
+1. `next_aaa`, `next_bbbb` etc are working branches for each team member.  `aaaa`, `bbbb` should be the GitHub usernames of each team member
+    > 1. These are working branches.  Each team member can commit changes freely to their own working branch.
+    > 1. Team member may also commit changes to other team members' working branches (but please consult with your team member first!)
+1.  `issuemm`, `issuenn` are optional but recommended.  `mm`, `nn` etc are issue numbers as recorded in GitHub.  
+    > While team members could work directly on their `next_aaaa` branch, it's recommended that team members create additional branches under their 'next branch` and work on issues there.  This makes it clearer to everyone which issues are being worked on by which team member.

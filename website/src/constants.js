@@ -10,6 +10,15 @@ export const dll_admin_github = '@mferrare';
 // Default text for ContactAdmin component
 export const defaultContactAdminText = "If you have any queries please contact";
 
+// Constants for DisplayServiceData component
+export const dsd_dev_server     = 'https://dev.dll.org.au/da/';
+export const dsd_prod_server    = 'https://dev.dll.org.au/da/';
+export const dsd_github_org     = 'https://github.com/Digital-Law-Lab';
+export const dsd_dll_repo       = dsd_github_org + '/Digital-Law-Lab';
+export const dsd_dpm            = dsd_dll_repo + '/blob/main/docassemble_playground_manager.py';
+export const dsd_slack          = 'https://digital-law-lab.slack.com';
+export const dsd_google_drive   = 'https://drive.google.com/drive/folders/1fK41cjHrIeqfOmdmi-0lF3dOtZAjgYf9';
+
 // Use this component to display the contact admin text
 export function ContactAdmin(props) {
     let contactText = "";
@@ -60,21 +69,28 @@ export function DisplayServiceData(props) {
     // Assumes services available via web as returns anchor link
     let result = "";
     let service_name = "";
+
+
     switch (props.data) {
         case 'dev_server':
-            result = 'https://dev.dll.org.au/da/';
+            result = dsd_dev_server;
             break;
+        case 'dll_repo':
+            result = dsd_dll_repo;
+            break
+        case 'dpm':
+            result = dsd_dpm;
         case 'prod_server':
-            result = 'https://app.dll.org.au/da/';
+            result = dsd_prod_server;
             break;
         case 'slack':
-            result = 'https://digital-law-lab.slack.com';
+            result = dsd_slack;
             break;
         case 'github':
-            result = 'https://github.com/Digital-Law-Lab';
+            result = dsd_github_org;
             break;
         case 'google_drive':
-            result = 'https://drive.google.com/drive/folders/1fK41cjHrIeqfOmdmi-0lF3dOtZAjgYf9';
+            result = dsd_google_drive;
             break;
         default:
             result = 'DisplayServiceData: Incorrect data supplied';

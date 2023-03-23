@@ -1,0 +1,53 @@
+---
+title: CLI to Push Repository to Docassemble
+---
+### Setting up PowerShell for pushing code to Projects
+We're all coding on Windows 10.  We use PowerShell to help out with pushing code back and forwards.  
+
+#### Execution Policy
+First, you need to allow the execution of PowerShell commands (which is not enabled by default).  You do this by setting the Execution Policy. Type this at a PowerShell prompt
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+You only need to do this once.
+
+#### Add an alias to your profile
+Next, you need to edit your PowerShell profile and add some `function()`s to help you with pushing your code to Docassemble.  You'll need to add a function for every Docassemble repo you clone (There are smarter ways to do this but I'm too lazy to figure them out!)
+
+Edit your PowerShell Profile
+```powershell
+> code $profile
+```
+
+Add this code:
+```powershell
+$Software = "$home\Software"         # Assumes you created your Software directory in your home directory
+$Secrets  = "$Software\secrets.json" # We assume you keep your API key in secrets.json in your Software directory
+$MySecret = "dll_api_key"            # Change this to be whatever you called your API key when you set up your secrets.json
+$DLL = "$Software\Digtal-Law-Lab" 
+$PlaygroundManager = "$DLL\docassemble_playground_manager.py"
+
+function pushPackageName {
+  # This function will push the code in the docassemble-PackageName repo into the 
+  # PackageName project in Docassemble.  We'll run this each time we want to run and/or
+  # test the code.
+  #
+  # We need to create one of these functions for each docassemble package we work on. It's
+  # a bit cumbersome but it's easy to understand.  When you copy this function for a new package
+  # you will need to change:
+  # - the name of the function (above)
+  # - the value for $DAPackage (below)
+
+  $DAPackage = "PackageName"
+  $Repo = "$Software\docassemble-$DAPackage"
+  py.exe $PlaygroundManager --secrets_file $Secrets --secret $MySecret --push --project $DAPackage --package $Repo
+}
+```
+Save and exit. 
+
+Now, you need to reload your profile.  Do this from the command line:
+```powershell
+> . $profile
+```
+(yes, a full-stop, a space and then `$profile`.  That's how you reload your profile)

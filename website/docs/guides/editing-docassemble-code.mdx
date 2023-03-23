@@ -1,0 +1,24 @@
+---
+title: Editing Docassemble Code in VS Code
+---
+import {DisplayServiceData} from '@site/src/constants.js';
+
+## Introduction
+We don't use Docassemble's Playground to edit code.  This is because the Playground is too small and also doesn't work so well with Github, especially private repositories.  Instead, we use Visual Studio Code and some custom python scripts to do our editing work and push our code to Docassemble for testing.
+
+## Overview
+
+* We code using Visual Studio Code
+* All Github work is done on our PC.  We don't use Docassemble's GitHub integration
+* The <DisplayServiceData data='dll_repo' service_name='Digital-Law-Lab' /> repository has the utility scripts we use for pushing code from VS Code to Docassemble
+
+## Code Lifecycle
+
+1. Clone GitHub repo to local PC
+1. create a 'Project' in your Docassemble playground which will be used for running and testing
+1. run `code .` in the cloned directory
+1. Code away
+1. Use <DisplayServiceData data='dpm' service_name="docassemble_playground_manager" /> to push code from your PC to your Docassemble Project
+1. test and run
+1. Commit and push changes to GitHub occasionally for code reviews and for promotion to production
+1. Go to step 3 and repeat!

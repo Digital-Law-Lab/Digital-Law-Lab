@@ -1,0 +1,93 @@
+---
+title: Provisioning a new Docassemble Repository
+---
+import {DisplayAdminData, DisplayServiceData} from '@site/src/constants.js';
+
+### Introduction
+Use this procedure when 'copying' a repository of existing code from another repository into the Digital Law Lab so we can work on it.
+
+### Clone and Mirror the Repository
+
+:::info TODO
+
+Instructions on creating a package from scratch
+
+:::
+
+Where we work on existing code (eg: code from LLAW3301 repo) we do not create a fork.  Instead we should mirror the repository into our Organisation.
+
+Steps:
+
+1. Create a new repository in Digital Law Lab using our [Repository Naming Standard](/policies/repository-naming-standard) via the web browser
+    > eg: we use the web browser to create a repo called `docassemble-clcsa-01-service-directory`
+2. Do a bare clone of the existing repository (command-line)
+    > eg: we will clone from LLAW3301:  
+    > `git clone --bare https://github.com/LLAW3301/docassemble-LLAW33012020S2P06.git`
+3. Do a mirror push to the repo just created in step 1.
+    > `git push --mirror https://github.com/Digital-Law-Lab/docassemble-clcsa-01-service-directory`
+
+### Clean out branches
+If the repository mirrored is a LLAW3301 student project it will contain a number of branches that we no longer need.  Delete all branches except for `main`/`master`.
+
+### Update the Package Info
+- create a `next` branch from `master` (more on why below)
+- check out `next` and make these changes:
+  - Rename `docassemble/old_package_name` to `docassemble/new_package_name`
+  - Edit `setup.py` and replace all occurences of `old_package_name` with `new_package_name`
+  - find the .yml file that is used to run the app and rename it to `main.yml`
+- commit changes to `next` and push
+- check out into Docassemble playground and confirm package still runs
+
+:::info
+
+In the example we've used in this document `old_package_name` would be `LLAW33012020S2P06` and `new_package_name` would be `clcsa-01-service-directory`.
+
+:::
+
+### Create working branch structure
+This should be done in accordance with the [[Code Branches Policy]]
+
+1. Make sure `next` branch exists, otherwise create it
+1. Create `next_AAAA` branches for each team member from `next`
+    > where `AAAA` is the GitHub username of each team member
+
+### Grant access to the repo
+Grant write access to `Digital-Law-Lab/docassemble-developers` group eg:
+
+![image](/img/docs/provision-add-teams.png)
+
+
+### Protect `main` and `next` branches
+
+:::caution
+
+It appears our version of GitHub only allows us to protect one branch.  This 
+part of the procedure may be discontinued in future
+
+:::
+
+**Note:** It looks like protection is behind a paywall.  We may need to drop this.
+
+Only <DisplayAdminData data='github' /> should be able to merge changes into `main` and `next`.  Set up protection on the branch so these two boxes are checked:
+
+![image](/img/docs/provision-protection.png)
+
+:::info
+
+Although the policy requires approval it does not restrict approvals only to <DisplayAdminData data='github' />.  However, only <DisplayAdminData data='github' /> should approve PRs into `main` and `next`.
+
+:::
+
+### Create Slack channel
+On <DisplayServiceData data='slack' service_name='our Slack' /> create a new channel for this repository.
+
+Channel naming convention:
+
+1. Use the same name as the repo but omit the `docassemble-` portion for docassemble packages
+    > eg: the channel for the `docassemble-clcsa-01-serivce-directory` is called `clcsa-01-service-directory`
+
+:::note
+
+The Slack requires channel names to be in lower case.
+
+:::

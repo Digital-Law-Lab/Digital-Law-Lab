@@ -46,9 +46,10 @@ const config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           // TODO: fix edit link
-          editUrl: ({ docPath }) => {
-            return `https://github.com/Digital-Law-Lab/Digital-Law-Lab/edit/docusaurus-source/website/docs/${docPath}`;
-          },
+          // UPDATE: Users should not be allowed to edit from GitHub Pages
+          // editUrl: ({ docPath }) => {
+          //   return `https://github.com/Digital-Law-Lab/Digital-Law-Lab/edit/docusaurus-source/website/docs/${docPath}`;
+          // },
         },
         blog: false,
         theme: {
@@ -100,15 +101,15 @@ const config = {
         items: [
           {
             type: 'docSidebar',
-            sidebarId: 'guidesSidebar',
-            position: 'left',
-            label: 'Guides',
-          },
-          {
-            type: 'docSidebar',
             sidebarId: 'policiesSidebar',
             position: 'left',
             label: 'Policies',
+          },
+          {
+            type: 'docSidebar',
+            sidebarId: 'guidesSidebar',
+            position: 'left',
+            label: 'Procedures',
           },
           // { to: '/blog', label: 'Blog', position: 'left' },
           {
@@ -123,7 +124,7 @@ const config = {
         style: 'light',
         links: [
           {
-            title: 'Guides',
+            title: 'Procedures',
             items: [
               {
                 label: 'Setting Up',

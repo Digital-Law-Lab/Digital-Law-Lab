@@ -3,9 +3,11 @@
 # - push/pull files to the current user's playground (ie: user with API key)
 
 import requests, json
+import urllib3
+import ssl
 import os
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, basename
 import glob
 import argparse
 import logging
@@ -32,6 +34,50 @@ project_folders = [
     MODULES_FOLDER
 ]
 
+class CustomHttpAdapter(requests.adapters.HTTPAdapter):
+    """
+    Synopsis
+    --------
+    A transport adapter that allows us to use a custom ssl_context.
+    This is required so that we can enable unsafe legacy renegotiation 
+    for systems with older OpenSSL servers.
+    
+    Copied from this StackOverflow post: https://stackoverflow.com/a/73519818
+    
+    Parameters
+    ----------
+    requests.adapter.HTTPAdapter
+    
+    Returns
+    -------
+    requests.session()
+    """
+    def __init__(self, ssl_context=None, **kwargs):
+        self.ssl_context = ssl_context
+        super().__init__(**kwargs)
+
+    def init_poolmanager(self, connections, maxsize, block=False):
+        self.poolmanager = urllib3.poolmanager.PoolManager(
+            num_pools=connections, maxsize=maxsize,
+            block=block, ssl_context=self.ssl_context)
+        
+def get_legacy_session():
+    """
+    Synopsis
+    --------
+    Gets a requests.session with ssl unsafe legacy renegotiation enabled
+    
+    Copied from this StackOverflow post: https://stackoverflow.com/a/73519818
+    
+    Returns
+    -------
+    requests.session()
+    """
+    ctx = ssl.create_default_context(ssl.Purpose.SERVER_AUTH)
+    ctx.options |= 0x4  # OP_LEGACY_SERVER_CONNECT
+    session = requests.Session()
+    session.mount('https://', CustomHttpAdapter(ctx))
+    return session    
 
 def push_to_playground(MJFpayload):
     """
@@ -59,17 +105,33 @@ def push_to_playground(MJFpayload):
     construct_API_payload(MJFpayload)
 
     # create the list of multiple files
-    file_payload = []
+    file_payload = [] 
     for file in MJFpayload['files']:
+        filename = basename(file)
+        #file_payload[filename] = open(file, 'rb')
         file_payload.append(
-            ('files', open(file, 'rb'))
+            (filename, open(file, 'rb'))
         )
     del MJFpayload['files']
     logging.debug('Push payload: {}'.format(MJFpayload))
     logging.debug('File payload: {}'.format(file_payload))
     # Send the file
-    response = requests.post(MJFpayload['URL'], data=MJFpayload, files=file_payload)
-    response.raise_for_status()
+    try:
+        response = requests.post(MJFpayload['URL'], data=MJFpayload, files=file_payload)
+        response.raise_for_status()
+    except:
+        # If the first push didn't work then we try using the legacy session
+        logging.debug('POST failed. Now pushing with legacy negotiation enabled')
+        s = get_legacy_session()
+        response = s.post(MJFpayload['URL'], data=MJFpayload, files=file_payload)
+        # If the legacy session also doesn't work (ie: it's not a SSL issue) then this will pass
+        # the exception up the chain
+        response.raise_for_status()
+        s.close()
+    finally:
+        for file in file_payload:
+            file[1].close()
+            
 
 def list_playground_files(MJFpayload):
     """

@@ -13,7 +13,7 @@
             "justMyCode": true
         },
         {
-            "name" : "P18 Push",
+            "name" : "HSC Push",
             "type": "python",
             "request": "launch",
             "program": "${file}",
@@ -21,15 +21,15 @@
             "justMyCode": true,
             "args": [
                 "--secrets_file",
-                "D:/OneDrive - Mark Ferraretto/kdb/secrets.json",
+                "~/OneDrive/kdb/secrets.json",
                 "--secret",
-                "mferrare_github",
+                "flinders_docassemble",
                 "--loglevel",
                 "DEBUG",
                 "--package",
-                "D:/OneDrive - Mark Ferraretto/Software/Digital_Law_Lab/docassemble-LLAW33012020S1P18",
+                "~/Software/docassemble-LLAW33012020S1P12",
                 "--project",
-                "P18",
+                "HSC",
                 "--push"
             ]
         },

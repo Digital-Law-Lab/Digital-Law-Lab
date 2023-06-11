@@ -10,6 +10,9 @@ export const dll_admin_github = '@mferrare';
 // Default text for ContactAdmin component
 export const defaultContactAdminText = "If you have any queries please contact";
 
+// Location of Google Drive folder
+export const google_drive_url   = 'https://drive.google.com/drive/folders/1fK41cjHrIeqfOmdmi-0lF3dOtZAjgYf9';
+
 // Constants for DisplayServiceData component
 export const dsd_dev_server     = 'https://dev.dll.org.au/da/';
 export const dsd_prod_server    = 'https://dev.dll.org.au/da/';
@@ -17,7 +20,7 @@ export const dsd_github_org     = 'https://github.com/Digital-Law-Lab';
 export const dsd_dll_repo       = dsd_github_org + '/Digital-Law-Lab';
 export const dsd_dpm            = dsd_dll_repo + '/blob/main/docassemble_playground_manager.py';
 export const dsd_slack          = 'https://digital-law-lab.slack.com';
-export const dsd_google_drive   = 'https://drive.google.com/drive/folders/1fK41cjHrIeqfOmdmi-0lF3dOtZAjgYf9';
+export const dsd_google_drive   = google_drive_url;
 
 // Use this component to display the contact admin text
 export function ContactAdmin(props) {
@@ -101,4 +104,21 @@ export function DisplayServiceData(props) {
         service_name = "No service defined";
     }
     return <span><a href={result}>{service_name}</a></span>
+}
+
+// Constants for DisplayImage. 
+// Border styles
+export const DI_shadow_block = 'disb';
+export const DI_inline_shadow = 'diis';
+export const DI_border_styles = {
+    [DI_shadow_block]: {
+        borderRadius: '5px',
+        display: 'block',
+        margin: '20px auto',
+        boxShadow: '0px 2px 5px rgba(0,0,0,0.25)'
+    },
+    [DI_inline_shadow] : {
+        borderRadius: '5px',
+        boxShadow: '0px 2px 5px rgba(0,0,0,0.25)'
+    }
 }

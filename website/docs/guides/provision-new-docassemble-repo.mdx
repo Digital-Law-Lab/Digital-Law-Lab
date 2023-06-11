@@ -1,7 +1,8 @@
 ---
 title: Provisioning a new Docassemble Repository
 ---
-import {DisplayAdminData, DisplayServiceData} from '@site/src/constants.js';
+import * as Constants from '@site/src/constants';
+import * as Components from '@site/src/components';
 
 ### Introduction
 Use this procedure when 'copying' a repository of existing code from another repository into the Digital Law Lab so we can work on it.
@@ -68,18 +69,18 @@ part of the procedure may be discontinued in future
 
 **Note:** It looks like protection is behind a paywall.  We may need to drop this.
 
-Only <DisplayAdminData data='github' /> should be able to merge changes into `main` and `next`.  Set up protection on the branch so these two boxes are checked:
+Only <Constants.DisplayAdminData data='github' /> should be able to merge changes into `main` and `next`.  Set up protection on the branch so these two boxes are checked:
 
 ![image](/img/docs/provision-protection.png)
 
 :::info
 
-Although the policy requires approval it does not restrict approvals only to <DisplayAdminData data='github' />.  However, only <DisplayAdminData data='github' /> should approve PRs into `main` and `next`.
+Although the policy requires approval it does not restrict approvals only to <Constants.DisplayAdminData data='github' />.  However, only <Constants.DisplayAdminData data='github' /> should approve PRs into `main` and `next`.
 
 :::
 
 ### Create Slack channel
-On <DisplayServiceData data='slack' service_name='our Slack' /> create a new channel for this repository.
+On <Constants.DisplayServiceData data='slack' service_name='our Slack' /> create a new channel for this repository.
 
 Channel naming convention:
 

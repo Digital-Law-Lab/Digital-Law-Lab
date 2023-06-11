@@ -1,7 +1,8 @@
 ---
 title: Code Branching Policy
 ---
-import { DisplayAdminData, DisplayServiceData } from '@site/src/constants.js';
+import * as Constants from '@site/src/constants';
+import * as Components from '@site/src/components';
 
 ### Code Branching Diagram
 ```
@@ -25,9 +26,9 @@ master
 ### Policy
 
 1. `master`/`main` only ever contains the version that is currently in production
-  > Only <DisplayAdminData data='github' /> can promote code into `master` and in accordance with [Promoting Code into Production](./promoting-code-into-production)
+  > Only <Constants.DisplayAdminData data='github' /> can promote code into `master` and in accordance with [Promoting Code into Production](./promoting-code-into-production)
 1. `next` branch is created from `master`.  This contains the next version to be promoted into production
-  > Only <DisplayAdminData data='github' /> can promote code into `next` and in accordance with [Promoting Code into Production](./promoting-code-into-production
+  > Only <Constants.DisplayAdminData data='github' /> can promote code into `next` and in accordance with [Promoting Code into Production](./promoting-code-into-production
 1. `next_aaa`, `next_bbbb` etc are working branches for each team member.  `aaaa`, `bbbb` should be the GitHub usernames of each team member
     > 1. These are working branches.  Each team member can commit changes freely to their own working branch.
     > 1. Team member may also commit changes to other team members' working branches (but please consult with your team member first!)

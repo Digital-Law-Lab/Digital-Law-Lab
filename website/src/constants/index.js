@@ -11,7 +11,7 @@ export const dll_admin_github = '@mferrare';
 export const defaultContactAdminText = "If you have any queries please contact";
 
 // Location of Google Drive folder
-export const google_drive_url   = 'https://drive.google.com/drive/folders/1fK41cjHrIeqfOmdmi-0lF3dOtZAjgYf9';
+export const google_drive_url   = 'https://drive.google.com/drive/folders/1-YbZJxIIkKswZ8YUXV8O3Ptly031YDC1?usp=sharing'
 
 // Constants for DisplayServiceData component
 export const dsd_dev_server     = 'https://dev.dll.org.au/da/';

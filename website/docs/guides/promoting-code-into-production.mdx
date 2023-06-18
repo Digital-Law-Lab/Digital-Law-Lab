@@ -1,31 +1,68 @@
 ---
 title: Promoting Code into Production
 ---
+import * as Constants from '@site/src/constants'
+
 ### Introduction
 At a high level, promoting code into production works as follows:
 
 ### Only promote `next` into production
 All code to go into production should be in the `next` branch
 
-### Preparation
+### The production branch name must be `main`
+Some older repos might have a `master` branch.  Delete or rename to
+`main`.  We will use `main` across all repos that we commission.
+
+### Preparation Checks and Tests
 1. Conduct regression Testing
 1. Update docassemble package metadata (in `setup.py` in `setup()`).  Check the following:
   
     1. name - should match repository name (**Note:** the name may not match if the repository has been provisioned according to the [Provisioning a New Docassemble Repository](/guides/provision-new-docassemble-repo) standard
-    1. version number - use x.y versioning.  Promoter's call as to which version number to increment
-    2. description - make sure it's meaningfulr
+    1. version number - should match milestone
+      * update version number in `setup.py`
+      * update versionnumber in `__init.py__`
+    1. description - make sure it's meaningful
     1. long_description
     1. author_email (should be `XXXX@digitallawlab.org`) (**TBC**)
     1. licence - should be `Copyright (c) YYYY Flinders University. All Rights Reserved'
     1. url - should be `https://flinders.edu.au`
 1. Review `README.md`.  Make sure it makes sense
-1. **TBC** Update changelog
-
-# Promotion
-1. Raise pull request
+1. check the main program is called `main.yml`.  Rename if necessary
 
 :::tip TODO
-
-TBC
-
+Add Digital Law Lab attribution?
 :::
+
+:::tip TODO
+Add step to update changelog
+:::
+
+## Example workflow
+### Before promotion
+* Agreement reached on issues to address for next milestone for a project
+* Milestone created under Issues for that project
+* Milestone name matches this Policy
+* Once all Issues are addressed a PR is raised to merge into `next`
+  * multiple PRs may be raised if necessary
+
+:::note
+Only <Constants.DisplayAdminData data="full_url" /> should approve PRs merging into `main`
+:::
+
+### Promotion
+* Check no outstanding issues for Milestone.  Address and start again otherwise
+* Do the merge
+* Do the production tests and checks
+* Merge `next` into `main`
+* Tag `main` with Milestone
+* Pull `main` into playground and install package on development server
+:::note
+Pull Main from the `Packages` folder in the Playground.  Don't use
+`docassemble_playground_manager.py` for this step.  The playground should sanity check the integrity of the package, which `docassemble_playground_manager.py` does not.
+:::
+* Additional tests (if required)
+* Send link to app to client.  Request approval
+  * if there are changes, make a new `next`, make changes to a new milestone and repeat process
+* On approval (with no changes) milestone tag of app can be installed into production server
+* send produciton link to client. Confirm access
+* work with client to make app available (eg: work with clients' web developer to add app to website)

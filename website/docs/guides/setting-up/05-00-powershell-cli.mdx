@@ -21,7 +21,7 @@ Edit your PowerShell Profile
 ```
 
 Add this code:
-```powershell
+```powershell title="Microsoft.PowerShell_profile.ps1"
 $Software = "$home\Software"         # Assumes you created your Software directory in your home directory
 $Secrets  = "$Software\secrets.json" # We assume you keep your API key in secrets.json in your Software directory
 $MySecret = "dev_dll_api_key"        # Change this to be whatever you called your API key when you set up your secrets.json
@@ -39,9 +39,12 @@ function pushPackageName {
   # - the name of the function (above)
   # - the value for $DAPackage (below)
 
-  $DAPackage = "PackageName"
-  $Repo = "$Software\docassemble-$DAPackage"
-  py.exe $PlaygroundManager --secrets_file $Secrets --secret $MySecret --push --project $DAPackage --package $Repo
+  $Project = "PackageName"
+  $Package = "$Software\docassemble-$DAPackage"
+  # For testing.  You can comment out the next line if you wish
+  echo "py.exe $PlaygroundManager --secrets_file $Secrets --secret $MySecret --push --project $Project --package $Package"
+  # Keep this next line though!
+  py.exe $PlaygroundManager --secrets_file $Secrets --secret $MySecret --push --project $Project --package $Package
 }
 ```
 Save and exit. 

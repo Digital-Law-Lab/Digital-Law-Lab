@@ -48,7 +48,7 @@ export function DisplayAdminData(props) {
     } else if (props.data == 'url') {
         return dll_admin_url;
     } else if (props.data == 'full_url') {
-        return '[' + dll_admin_name + '](' + dll_admin_url + ')';
+        return <a href={dll_admin_url}>{dll_admin_name}</a>
     } else if (props.data == 'github') {
         return dll_admin_github;
     } else {

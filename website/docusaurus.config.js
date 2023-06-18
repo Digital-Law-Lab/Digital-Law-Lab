@@ -124,15 +124,24 @@ const config = {
         style: 'light',
         links: [
           {
-            title: 'Procedures',
+            title: 'Docs',
             items: [
               {
-                label: 'Setting Up',
-                to: '/setting-up',
+                label: 'Docassemble Manual',
+                href: 'https://docassemble.org/docs.html',
+              },
+            ],
+          },
+          {
+            title: 'Community',
+            items: [
+              {
+                label: 'Digital Law Lab Slack',
+                href: 'https://digital-law-lab.slack.com',
               },
               {
-                label: 'Markdown Syntax',
-                to: '/markdown-guide',
+                label: 'Docassemble Slack',
+                href: 'https://docassemble.slack.com',
               },
             ],
           },
@@ -140,11 +149,15 @@ const config = {
             title: 'Important links',
             items: [
               {
-                label: 'Docassemble Server',
+                label: 'Development Server',
                 href: 'https://app.dll.org.au/da/',
               },
               {
-                label: "Organisation's GitHub",
+                label: 'Production Server',
+                href: 'https://app.dll.org.au/da/',
+              },
+              {
+                label: "Digital Law Lab GitHub",
                 href: 'https://github.com/Digital-Law-Lab',
               },
             ],

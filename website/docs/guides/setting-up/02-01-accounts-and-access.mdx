@@ -1,7 +1,8 @@
 ---
 title: Account creation
 ---
-import { DisplayAdminData, DisplayServiceData } from '@site/src/constants.js';
+import * as Constants from '@site/src/constants';
+import * as Components from '@site/src/components';
 
 ### Accounts
 Firstly, we're Google-centric 👎 but that's how it is.  We get more free stuff through Google (such as Drive and API to authenticate) than with other providers (eg: Microsoft).  So, you should use a gmail email address when asked to do so (eg: for GitHub and Docassemble etc)
@@ -10,15 +11,15 @@ Firstly, we're Google-centric 👎 but that's how it is.  We get more free stuff
 Create an account on [GitHub](https://github.com).  If you already have one, you can use that if you like (notwithstanding my comment on Google accounts above)
 ### Docassemble
 * Click on the 'Sign in with Google' button.  This will create a new Docassemble account for you with you gmail address.
-  * Do this on both the <DisplayServiceData data='dev_server' service_name="development" /> and <DisplayServiceData data='prod_server' service_name="production" />) servers.
-* Ask <DisplayAdminData data='github' /> to add you to the Digital Law Lab developers team.
+  * Do this on both the <Constants.DisplayServiceData data='dev_server' service_name="development" /> and <DisplayServiceData data='prod_server' service_name="production" />) servers.
+* Ask <Constants.DisplayAdminData data='github' /> to add you to the Digital Law Lab developers team.
 
 You should be good to go!
 
 ### Google Drive
-* Send your gmail address to <DisplayAdminData data='github'/> so you can get access to the <DisplayServiceData data='google_drive' service_name="Digital Law Lab Google Drive" />
+* Send your gmail address to <Constants.DisplayAdminData data='github'/> so you can get access to the <DisplayServiceData data='google_drive' service_name="Digital Law Lab Google Drive" />
 
 ### Slack
-* Ask <DisplayAdminData data='github' /> to be invited to the <DisplayServiceData data='slack' service_name="Digital Law Lab Slack" />
-* Connect to <DisplayServiceData data='slack' service_name='our Slack' />
+* Ask <Constants.DisplayAdminData data='github' /> to be invited to the <Constants.DisplayServiceData data='slack' service_name="Digital Law Lab Slack" />
+* Connect to <Constants.DisplayServiceData data='slack' service_name='our Slack' />
 * We recommend you download the Slack app for your phone and for your desktop

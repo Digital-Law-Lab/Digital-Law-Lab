@@ -35,7 +35,7 @@ cd docassemble-CLCSA01ServiceDirectory
 #### Remove the remote origin and addd the new remote origin (ie: our new repository)
 ```shell
 git remote rm origin
-git remote add origin https://ithub.com:Digital-Law-Lab/docassemble-CLCSA01ServiceDirectory.git
+git remote add origin https://github.com:Digital-Law-Lab/docassemble-CLCSA01ServiceDirectory.git
 ```
 :::note
 The above example assumes you're accessing GitHub via HTTPS, which you 
@@ -70,7 +70,7 @@ work on the `next` branch as per the [Code Branching Policy](/policies/code-bran
   - Edit `setup.py` and replace all occurences of `old_package_name` with `new_package_name`
   - find the .yml file that is used to run the app and rename it to `main.yml`
 - commit changes to `next` and push
-- pull into Docassemble Playground and confirm package still runs
+- pull `next` into Docassemble Playground and confirm package still runs
 
 :::info
 In the example we've used in this document `old_package_name` would be `LLAW33012020S2P06` and `new_package_name` would be `CLCSA01ServiceDirectory`.
@@ -84,7 +84,8 @@ This should be done in accordance with the [Code Branching Policy](/policies/cod
 consistent with the [Code Branching Policy](/policies/code-branching-policy).
 
 #### Push the new branch(es) to GitHub
-```shell title='Do this for each branch'
+If you've created `next_aaaa` branches for other users then push these up to GitHub
+```shell title='Do this for each branch you have created'
 git checkout branch_name
 git push
 ```
@@ -122,5 +123,5 @@ Slack allows for links to be pinned as bookmarks
 <Components.DisplayImage imageURL='/img/docs/provision-pin-bookmark.png' />
 
 The following should be pinned as bookmarks:
-1. Link to repository
-1. Link to Google Drive
+1. Link to GitHub repository 
+1. Link to Google Drive repository folder you just created

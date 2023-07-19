@@ -80,9 +80,10 @@ export function DisplayServiceData(props) {
             break;
         case 'dll_repo':
             result = dsd_dll_repo;
-            break
+            break;
         case 'dpm':
             result = dsd_dpm;
+            break;
         case 'prod_server':
             result = dsd_prod_server;
             break;

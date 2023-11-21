@@ -117,7 +117,7 @@ def push_to_playground(MJFpayload):
     logging.debug('File payload: {}'.format(file_payload))
     # Send the file
     try:
-        response = requests.post(MJFpayload['URL'], data=MJFpayload, files=file_payload)
+        response = requests.post(MJFpayload['URL'], data=MJFpayload, files=file_payload, verify=False)
         response.raise_for_status()
     except:
         # If the first push didn't work then we try using the legacy session

@@ -1,6 +1,13 @@
 # A script that allows an admin to push and pull files from a nominated playground
 # Assumptions:
 # - push/pull files to the current user's playground (ie: user with API key)
+#
+# UPDATE: 2023-11-21
+# Script doesn't work by default with SSL2 and get an error related to unsafe 
+# legacy negotiation being disabled.  To work around this error edit 
+# /etc/ssl/ssl.conf on WSL2 and add this line to [system_default_sect]
+# Options = UnsafeLegacyRenegotiation
+#
 
 import requests, json
 import urllib3
@@ -117,7 +124,7 @@ def push_to_playground(MJFpayload):
     logging.debug('File payload: {}'.format(file_payload))
     # Send the file
     try:
-        response = requests.post(MJFpayload['URL'], data=MJFpayload, files=file_payload, verify=False)
+        response = requests.post(MJFpayload['URL'], data=MJFpayload, files=file_payload)
         response.raise_for_status()
     except:
         # If the first push didn't work then we try using the legacy session
